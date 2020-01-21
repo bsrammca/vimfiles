@@ -8,11 +8,21 @@ if exists(':NERDTree')
   nnoremap _ :NERDTreeVCS<CR>
 endif
 
+if exists(':Gstatus')
+  nnoremap <leader>gs :Gstatus<cr>
+  nnoremap <leader>gc :Gcommit -v<cr>:set nonumber<cr>a
+  nnoremap <leader>gl :Glog<cr>
+  nnoremap <leader>gb :Gblame<cr>
+  nnoremap <leader>go :Gbrowse<cr>
+  nnoremap <leader>gO :Gbrowse!<cr>
+end
+
 if exists(':Files')
   nnoremap <C-p>      :Gcd<cr>:Files<cr>
   nnoremap <leader>bb :Buffers<cr>
   nnoremap <tab>      :bnext<cr>
   nnoremap <s-tab>    :bprev<cr>
+  nnoremap <leader>/  :Ag<cr>
 endif
 
 if exists(':EasyAlign')
@@ -50,3 +60,12 @@ if exists(':CocAction')
   nnoremap <leader>cd :CocList diagnostics<CR>
 endif
 
+" Quickfix
+nnoremap <F2> :cclose<CR>
+nnoremap <F3> :cprev<CR>
+nnoremap <F4> :cnext<CR>
+
+" Location list
+nnoremap <S-F2> :lclose<CR>
+nnoremap <S-F3> :lprev<CR>
+nnoremap <S-F4> :lnext<CR>

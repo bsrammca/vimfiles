@@ -32,7 +32,7 @@ function! s:darktheme()
   hi! Pmenu ctermbg=237 ctermfg=1
 
   hi! StatusLine   cterm=none ctermbg=234 ctermfg=1
-  hi! StatusLineNC cterm=none ctermbg=234 ctermfg=235
+  hi! StatusLineNC cterm=none ctermbg=234 ctermfg=236
 endfunction
 
 function! s:lighttheme()
@@ -113,4 +113,8 @@ function! s:overrides()
 
   hi! link diffAdded   DiffAdd
   hi! link fugitiveHunk   Muted
+
+  hi! link TabLineFill StatusLineNC
+  hi! link TabLine     StatusLineNC
+  hi! link TabLineSel  StatusLine
 endfunction
