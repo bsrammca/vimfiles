@@ -9,9 +9,10 @@ function! s:darktheme()
 
   hi! Invis    cterm=none      ctermbg=none ctermfg=232
   hi! NonText  cterm=none      ctermbg=none ctermfg=232
-  hi! Selected cterm=underline ctermbg=238
   hi! Visual   cterm=none      ctermbg=238
   hi! Error    ctermbg=52      ctermfg=199
+  hi! muted    ctermbg=none    ctermfg=239
+  hi! selected cterm=underline ctermbg=238
 
   " --- a/xyz.txt <--- diffFile
   " +++ b/xyz.txt
@@ -32,17 +33,18 @@ function! s:lighttheme()
 
   hi! Invis    cterm=none      ctermbg=none ctermfg=254
   hi! NonText  cterm=none      ctermbg=none ctermfg=254
-  hi! Selected cterm=underline ctermbg=253
   hi! Visual   cterm=none      ctermbg=253
   hi! Error    ctermbg=213     ctermfg=52
+  hi! muted    ctermbg=none    ctermfg=15
+  hi! selected cterm=underline ctermbg=253
 endfunction
 
 function! s:overrides()
   " Common styles
-  hi! Normal     ctermbg=none ctermfg=none
-  hi! Underline  ctermbg=none ctermfg=none cterm=underline
-  hi! Gray       cterm=none   ctermfg=8
-  hi! ItalicGray cterm=none   ctermfg=8
+  hi! Normal       ctermbg=none ctermfg=none
+  hi! Underline    ctermbg=none ctermfg=none cterm=underline
+  hi! Gray         cterm=none   ctermfg=8
+  hi! ItalicGray   cterm=none   ctermfg=8
   hi! CocUnderline cterm=underline
 
   " Overrides to things I don't like
@@ -63,8 +65,8 @@ function! s:overrides()
   hi! link Comment      ItalicGray
 
   hi! link MatchParen Underline
-  hi! link Search     Selected
-  hi! link IncSearch  Selected
+  hi! link Search     selected
+  hi! link IncSearch  selected
   hi! link VisualNC   Visual
 
   hi! link gitcommitFirstLine     Normal
@@ -84,12 +86,13 @@ function! s:overrides()
   hi! link NerdTreeDirSlash Gray
   hi! link NerdTreeCWD      Gray
 
-  hi! link diffLine Constant
+  hi! link diffLine    Constant
   hi! link diffSubname Gray
-  hi! link diffFile Constant
+  hi! link diffFile    Constant
 
-  hi! link CocHintSign Statement
-  hi! link CocInfoSign Statement
+  hi! link CocHintSign    Statement
+  hi! link CocInfoSign    Statement
   hi! link CocWarningSign Type
-  hi! link CocErrorSign Error
+  hi! link CocErrorSign   Error
+  hi! link CocCodeLens    Muted
 endfunction
