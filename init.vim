@@ -8,7 +8,7 @@ Plug '~/.config/nvim/modules/ctrl-c-ctrl-v'
 Plug '~/.config/nvim/modules/git-grep'
 
 " Core plugins
-Plug 'rstatcruz/vim-opinion'
+Plug 'rstacruz/vim-opinion'
 
 " Don't load the other plugins
 if $GIT_AUTHOR_DATE != '' || $VIM_MINIMAL != ''
@@ -29,5 +29,7 @@ Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
+
+let g:coc_global_extensions = [ 'coc-tsserver', 'coc-prettier', 'coc-json', 'coc-snippets' ]
 
 call plug#end()
