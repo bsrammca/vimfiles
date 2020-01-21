@@ -1,7 +1,7 @@
 function! s:is_light()
   " Don't bother if there's no xrdb
-  if !filereadable('~/.cache/wal/colors') | return 0 | endif
-  let bgcolor = system("cat ~/.cache/wal/colors | head -n 1")
+  if !filereadable($HOME.'/.cache/wal/colors') | return 0 | endif
+  let bgcolor = system("cat ".$HOME."/.cache/wal/colors | head -n 1")
   if matchstr(bgcolor, '#[efEF]') != "" | return 1 | endif
 
   return 0

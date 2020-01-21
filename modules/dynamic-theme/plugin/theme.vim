@@ -35,7 +35,7 @@ function! s:lighttheme()
   hi! NonText  cterm=none      ctermbg=none ctermfg=254
   hi! Visual   cterm=none      ctermbg=253
   hi! Error    ctermbg=213     ctermfg=52
-  hi! muted    ctermbg=none    ctermfg=15
+  hi! muted    ctermbg=none    ctermfg=251
   hi! selected cterm=underline ctermbg=253
 endfunction
 
