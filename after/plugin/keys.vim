@@ -64,15 +64,15 @@ if exists(':NERDTree')
 endif
 
 if exists(':GG')
-  nnoremap <leader>*  :SG <C-r><C-w><CR>
-  vnoremap <leader>*  y:SG <C-r>"<C-b><CR>
+  nnoremap <leader>/  :VG<space>
+  nnoremap <leader>*  :VG <C-r><C-w><CR>
+  vnoremap <leader>*  y:VG <C-r>"<C-b><CR>
 endif
 
 if exists(':Files')
   nnoremap <C-p>      :Gcd<cr>:Files<cr>
   nnoremap <tab>      :bnext<cr>
   nnoremap <s-tab>    :bprev<cr>
-  nnoremap <leader>/  :Ag<cr>
 endif
 
 if exists(':EasyAlign')
