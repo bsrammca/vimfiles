@@ -20,7 +20,11 @@ if exists(':Gstatus')
   nnoremap <leader>gb :Gblame<cr>
   nnoremap <leader>go :Gbrowse<cr>
   nnoremap <leader>gO :Gbrowse!<cr>
-end
+endif
+
+if exists(':GV')
+  nnoremap <leader>gv :GV<cr>
+endif
 
 if exists(':Files')
   nnoremap <C-p>      :Gcd<cr>:Files<cr>
