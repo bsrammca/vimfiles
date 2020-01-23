@@ -4,7 +4,7 @@ if globpath(&rtp, "autoload/startify.vim") == "" | finish | endif
 " Set banner
 "
 
-command! StartifySetBanner :call <SID>set_banner()
+command! -nargs=0 StartifySetBanner :call <SID>set_banner()
 
 function! s:get_vim_version()
   redir => test
@@ -40,6 +40,14 @@ function! s:reset()
   call <SID>set_banner()
   SClose
 endfunction
+
+command! StartifyWithBanner :call <SID>startify_with_banner()
+
+function! s:startify_with_banner()
+  call <SID>set_banner()
+  Startify
+endfunction
+
 
 let g:startify_custom_footer =
   \ startify#pad([s:get_vim_version()])

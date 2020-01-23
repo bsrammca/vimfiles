@@ -12,14 +12,14 @@ if exists(':Gstatus')
   nnoremap <leader>gs :tabnew<cr>:Gstatus<cr><C-W>o
   nnoremap <leader>gts :tabnew<cr>:term tig status<cr>
   nnoremap <leader>gc :Gcommit -v<cr>:set nonumber<cr>a
-  nnoremap <leader>gl :Glog<cr>
+  " nnoremap <leader>gl :Glog<cr>
   nnoremap <leader>gb :Gblame<cr>
   nnoremap <leader>go :Gbrowse<cr>
   nnoremap <leader>gO :Gbrowse!<cr>
 endif
 
 if exists(':GV')
-  nnoremap <leader>gv :GV<cr>
+  nnoremap <leader>gl :GV<cr>
 endif
 
 if exists(':Buffers')

@@ -15,7 +15,8 @@ function! s:get_bookmark_commands()
 
   let globs = globpath(bookmarks_path, '*', 0, 1)
   let dirs = filter(globs, "isdirectory(expand(v:val))")
-  let commands = map(dirs, "[ fnamemodify(v:val, ':t'), 'cd ' . resolve(expand(v:val)) . ' | StartifyReset' ]")
+  " Let's use 'lcd' so multiple tabs can have different projects
+  let commands = map(dirs, "[ fnamemodify(v:val, ':t'), 'lcd ' . resolve(expand(v:val)) . ' | StartifyWithBanner' ]")
   return commands
 endfunction
 
