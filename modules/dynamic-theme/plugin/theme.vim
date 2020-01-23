@@ -11,9 +11,9 @@ function! s:darktheme()
   hi! NonText    cterm=none      ctermbg=none ctermfg=232
   hi! Visual     cterm=none      ctermbg=238
   hi! Error      ctermbg=52      ctermfg=199
-  hi! CursorLine ctermbg=234
   hi! muted      ctermbg=none    ctermfg=239
   hi! selected   cterm=underline ctermbg=238
+  hi! CursorLine ctermbg=237
 
   " --- a/xyz.txt <--- diffFile
   " +++ b/xyz.txt
@@ -45,9 +45,9 @@ function! s:lighttheme()
   hi! NonText    cterm=none      ctermbg=none ctermfg=254
   hi! Visual     cterm=none      ctermbg=253
   hi! Error      ctermbg=213     ctermfg=52
-  hi! CursorLine ctermbg=253
   hi! muted      ctermbg=none    ctermfg=251
   hi! selected   cterm=underline ctermbg=253
+  hi! CursorLine ctermbg=253
 
   hi! DiffAdd     ctermfg=22 ctermbg=40
   hi! DiffChange  ctermfg=17 ctermbg=39
