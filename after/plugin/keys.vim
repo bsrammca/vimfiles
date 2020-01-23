@@ -3,16 +3,6 @@ nnoremap <S-Enter> zO
 nnoremap <C-Enter> zC
 nnoremap <C-s> :w<cr>
 
-if exists(':term')
-  nnoremap <leader>' :split<CR>:resize 20<CR>:term<CR>
-  tnoremap <A-c> <C-\><C-n>
-endif
-
-if exists(':NERDTree')
-  nnoremap - :Gcd<CR>:NERDTreeFind<CR>
-  nnoremap _ :NERDTreeVCS<CR>
-endif
-
 if exists(':Gstatus')
   nnoremap <leader>gs :Gstatus<cr>
   nnoremap <leader>gc :Gcommit -v<cr>:set nonumber<cr>a
@@ -26,9 +16,40 @@ if exists(':GV')
   nnoremap <leader>gv :GV<cr>
 endif
 
+if exists(':Buffers')
+  nnoremap <leader>bb :Buffers<cr>
+endif
+
+if exists(':tabclose')
+  nnoremap <leader>tc :tabclose<cr>
+  nnoremap <leader>tn :tabnew<cr>:Startify<cr>
+endif
+
+if exists(':Startify')
+  nnoremap <leader>sc :tabonly<cr>:StartifyReset<cr>
+  " nnoremap <leader>sc :tabonly<cr>:SClose<cr>
+  " nnoremap <leader>st :only<cr>:Startify<cr>
+  " nnoremap <leader>sT :tabonly<cr>:only<cr>:Startify<cr>
+endif
+
+if exists(':q')
+  nnoremap <leader>qa :qa<CR>
+  nnoremap <leader>qA :qa!<CR>
+  nnoremap <leader>qc :cq!<CR>
+endif
+
+if exists(':term')
+  nnoremap <leader>' :split<CR>:resize 20<CR>:term<CR>
+  tnoremap <A-c> <C-\><C-n>
+endif
+
+if exists(':NERDTree')
+  nnoremap - :Gcd<CR>:NERDTreeFind<CR>
+  nnoremap _ :NERDTreeVCS<CR>
+endif
+
 if exists(':Files')
   nnoremap <C-p>      :Gcd<cr>:Files<cr>
-  nnoremap <leader>bb :Buffers<cr>
   nnoremap <tab>      :bnext<cr>
   nnoremap <s-tab>    :bprev<cr>
   nnoremap <leader>/  :Ag<cr>

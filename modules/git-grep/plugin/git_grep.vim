@@ -8,7 +8,7 @@ function! s:gitgrep(query)
 
   " Perform an ag search
   silent exec "r!git grep --heading --line-number " . a:query
-  set filetype=help
+  set filetype=help buftype=nofile
 
   if line('$') != 1
     " Highlight currenty query
