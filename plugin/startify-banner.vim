@@ -6,23 +6,26 @@ if globpath(&rtp, "autoload/startify.vim") == "" | finish | endif
 
 command! StartifySetBanner :call <SID>set_banner()
 
+function! s:get_vim_version()
+  redir => test
+    silent version
+  redir END
+
+  let lines = split(test, '\n')
+  return lines[0]
+endfunction
+
 function! s:set_banner()
   let project_dir = fnamemodify(getcwd(), ':t')
-  if has('nvim')
-    let version_line = 'Neovim'
-  else
-    let version_line = 'Vim'.v:version
-  endif
 
   if executable('toilet')
     let g:startify_custom_header =
       \ [ '' ] +
-      \ startify#pad([version_line]) +
       \ startify#pad(split(system('echo '.project_dir.' | toilet -f future'), '\n')) +
       \ [ '' ]
   else
     let g:startify_custom_header =
-      \ [ '', '', '', startify#center(project_dir), startify#pad([version_line]), '', '', '' ]
+      \ [ '', '', '', startify#center(project_dir), '', '', '' ]
   endif
 endfunction
 
@@ -37,5 +40,8 @@ function! s:reset()
   call <SID>set_banner()
   SClose
 endfunction
+
+let g:startify_custom_footer =
+  \ startify#pad([s:get_vim_version()])
 
 StartifySetBanner

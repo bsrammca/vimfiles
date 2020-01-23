@@ -17,3 +17,9 @@ if $GIT_AUTHOR_DATE != ''
   set nonumber
   set norelativenumber
 endif
+
+" No line numbers on git status
+au FileType fugitive setlocal nonumber norelativenumber
+
+" Close terminal
+au TermClose *tig* silent bwipe! | silent close

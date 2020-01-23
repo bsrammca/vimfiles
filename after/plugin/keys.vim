@@ -4,7 +4,8 @@ nnoremap <C-Enter> zC
 nnoremap <C-s> :w<cr>
 
 if exists(':Gstatus')
-  nnoremap <leader>gs :Gstatus<cr>
+  nnoremap <leader>gs :tabnew<cr>:Gstatus<cr><C-W>o
+  nnoremap <leader>gts :tabnew<cr>:term tig status<cr>
   nnoremap <leader>gc :Gcommit -v<cr>:set nonumber<cr>a
   nnoremap <leader>gl :Glog<cr>
   nnoremap <leader>gb :Gblame<cr>
@@ -39,9 +40,14 @@ if exists(':q')
 endif
 
 if exists(':term')
-  nnoremap <leader>' :split<CR>:resize 20<CR>:term<CR>
-  tnoremap <A-c> <C-\><C-n>
+  nnoremap <leader>' :Term<CR>
+
+  " Different ways to escape
   tnoremap <C-b><C-n> <C-\><C-n>
+  tnoremap <C-]> <C-\><C-n>
+  tnoremap <C-[> <C-\><C-n>
+
+  tnoremap <C-b><C-x> <C-\><C-n>:q!<CR>
 endif
 
 if exists(':NERDTree')

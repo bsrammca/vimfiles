@@ -1,11 +1,18 @@
 let g:mapleader=","
-call plug#begin('~/.config/nvim/vendor')
+if has('nvim')
+  let vim = stdpath('config')
+else
+  let vim = $HOME . '/.vim'
+end
+
+call plug#begin(vim . '/vendor')
 
 " Home-made modules
-Plug '~/.config/nvim/modules/dynamic-theme'
-Plug '~/.config/nvim/modules/save-typos'
-Plug '~/.config/nvim/modules/ctrl-c-ctrl-v'
-Plug '~/.config/nvim/modules/git-grep'
+Plug vim . '/modules/dynamic-theme'
+Plug vim . '/modules/save-typos'
+Plug vim . '/modules/ctrl-c-ctrl-v'
+Plug vim . '/modules/git-grep'
+Plug vim . '/modules/popup-terminal'
 
 " Core plugins
 Plug 'rstacruz/vim-opinion'
