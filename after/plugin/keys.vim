@@ -41,6 +41,7 @@ endif
 if exists(':term')
   nnoremap <leader>' :split<CR>:resize 20<CR>:term<CR>
   tnoremap <A-c> <C-\><C-n>
+  tnoremap <C-b><C-n> <C-\><C-n>
 endif
 
 if exists(':NERDTree')
