@@ -22,4 +22,6 @@ endif
 au FileType fugitive setlocal nonumber norelativenumber
 
 " Close terminal
-au TermClose *tig* silent bwipe! | silent close
+if has('nvim')
+  au TermClose *tig* silent bwipe! | silent close
+endif

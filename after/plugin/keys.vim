@@ -2,6 +2,7 @@ nnoremap <Enter> za
 nnoremap <S-Enter> zO
 nnoremap <C-Enter> zC
 nnoremap <C-s> :w<cr>
+inoremap <C-s> <esc>:w<cr>
 
 " Open config
 nnoremap <leader>fek :tabnew<cr>:e ~/.config/nvim/after/plugin/keys.vim<cr>
@@ -60,6 +61,11 @@ endif
 if exists(':NERDTree')
   nnoremap - :Gcd<CR>:NERDTreeFind<CR>
   nnoremap _ :NERDTreeVCS<CR>
+endif
+
+if exists(':GG')
+  nnoremap <leader>*  :SG <C-r><C-w><CR>
+  vnoremap <leader>*  y:SG <C-r>"<C-b><CR>
 endif
 
 if exists(':Files')
