@@ -15,3 +15,6 @@ let g:startify_change_to_vcs_root = 1
 
 " Cursor line
 autocmd User Startified setlocal cursorline
+
+" Dvorak
+let g:startify_custom_indices = split('oudhnpyfgcrljkxmwz1234567890', '\zs')
