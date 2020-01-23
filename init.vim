@@ -12,7 +12,7 @@ Plug vim . '/modules/dynamic-theme'
 Plug vim . '/modules/save-typos'
 Plug vim . '/modules/ctrl-c-ctrl-v'
 Plug vim . '/modules/git-grep'
-Plug vim . '/modules/popup-terminal'
+Plug vim . '/modules/quickterm'
 
 " Core plugins
 Plug 'rstacruz/vim-opinion'

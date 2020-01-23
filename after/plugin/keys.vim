@@ -3,6 +3,11 @@ nnoremap <S-Enter> zO
 nnoremap <C-Enter> zC
 nnoremap <C-s> :w<cr>
 
+" Open config
+nnoremap <leader>fek :tabnew<cr>:e ~/.config/nvim/after/plugin/keys.vim<cr>
+nnoremap <leader>fec :tabnew<cr>:e ~/.config/nvim/after/plugin/customizations.vim<cr>
+nnoremap <leader>fei :tabnew<cr>:e ~/.config/nvim/init.vim<cr>
+
 if exists(':Gstatus')
   nnoremap <leader>gs :tabnew<cr>:Gstatus<cr><C-W>o
   nnoremap <leader>gts :tabnew<cr>:term tig status<cr>
@@ -39,9 +44,11 @@ if exists(':q')
   nnoremap <leader>qc :cq!<CR>
 endif
 
-if exists(':term')
-  nnoremap <leader>' :Term<CR>
+if exists(':Quickterm')
+  nnoremap <leader>' :Quickterm<CR>
+endif
 
+if exists(':term')
   " Different ways to escape
   tnoremap <C-b><C-n> <C-\><C-n>
   tnoremap <C-]> <C-\><C-n>

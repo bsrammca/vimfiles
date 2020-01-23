@@ -125,4 +125,7 @@ function! s:overrides()
   hi! link StartifyPath    Comment
   hi! link StartifySpecial Constant
   hi! link StartifyFooter  Muted
+
+  " The '-- INSERT --' mode line
+  hi! link ModeMsg Invis
 endfunction
