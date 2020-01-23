@@ -13,6 +13,7 @@ function! s:open_terminal()
     term
     " Rename the buffer
     exec 'file ' . g:quickterm_name
+    call s:bind_buffer_keys()
   else
     let win = bufwinnr(buf)
     if win == -1
@@ -33,6 +34,12 @@ function! s:open_split_window()
   split
   exe "normal \<C-w>J"
   exec 'resize ' . g:quickterm_height
+endfunction
+
+function! s:bind_buffer_keys()
+  " Hide window
+  tnoremap <buffer> <C-]> <C-\><C-n>:q<cr>
+  nnoremap <buffer> <C-]> :q<cr>
 endfunction
 
 au TermClose *Quickterm* bwipe!

@@ -1,0 +1,9 @@
+*quickterm.txt*  Quick terminal
+
+---------------------------------------------------------------------------------------
+COMMANDS                                                           *quickterm-commands*
+>
+    :Quickterm
+<
+Opens a terminal.
+
