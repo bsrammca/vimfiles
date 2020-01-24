@@ -146,7 +146,7 @@ function! gitgrep#run(win_mode, query)
   endif
 
   " Prevent it from being written
-  setlocal nomodifiable nonumber
+  setlocal nomodifiable nonumber foldmethod=indent
   set hlsearch
 
   " Finally, let it be picked up later
