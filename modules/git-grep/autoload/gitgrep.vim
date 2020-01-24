@@ -31,62 +31,12 @@ if !exists('g:gitgrep_last_query')
   let g:gitgrep_last_query = ''
 endif
 
-" Opens a window for [v]ertical, [s]plit, [t]ab or [max]imised
-function gitgrep#open_window(win_mode)
-  let mode = a:win_mode == '' ? 'm' : a:win_mode
+if !exists('g:gitgrep_keep_focus')
+  let g:gitgrep_keep_focus = 1
+endif
 
-  " save the referer window for splits
-  let referer = winnr()
-
-  if mode == 'v'
-    let pos = g:gitgrep_vertical_position == 'right' ? 'botright' : 'topleft'
-    exe 'vert ' . pos . ' new'
-    let b:referer = referer
-  elseif mode == 't'
-    tabnew
-  elseif mode == 's'
-    let pos = g:gitgrep_horizontal_position == 'bottom' ? 'bot' : 'top'
-    exe '' . pos . ' new'
-    exe 'resize ' . g:gitgrep_height
-    let b:referer = referer
-  elseif mode == 'm'
-    " always opens on top
-    exe 'top new'
-    resize
-  endif
-endfunction
-
-" Opens a window, or focuses if it's already there
-" Returns:
-"  - `0` if it's a new window
-"  - `1` if it's a new window & existing buffer
-"  - `2` if it's an existing window & existing buffer
-"
-function! gitgrep#prepare_window(win_mode)
-  let buf = bufnr(g:gitgrep_window)
-  let win = bufwinnr(buf)
-
-  if buf == -1
-    " New buffer/window
-    call gitgrep#open_window(a:win_mode)
-    " set buffer name
-    exe 'file ' . g:gitgrep_window
-    let b:gitgrep_buffer = 1
-    call gitgrep#bind_buffer_keys()
-    return 0
-  elseif win == -1
-    " Old buffer, new window (reuse the old buffer)
-    call gitgrep#open_window(a:win_mode)
-    exe 'b ' . buf
-    return 1
-  else
-    " Old buffer, old window (focus on open window)
-    exec '' . win . 'wincmd w'
-    return 2
-  endif
-endfunction
-
-function! gitgrep#run(win_mode, bang, query)
+" The main entrypoint
+function! gitgrep#run(win_mode, bang, query) " {{{
   " What invoked it
   let source = winnr()
 
@@ -151,7 +101,7 @@ function! gitgrep#run(win_mode, bang, query)
 
   " Prevent it from being written, and other stuff
   silent! setlocal
-    \ nocursorcolumn nobuflisted matchpairs=0 foldcolumn=0
+    \ nocursorcolumn nobuflisted foldcolumn=0
     \ nolist nonumber norelativenumber nospell noswapfile signcolumn=no
     \ nomodifiable nonumber foldmethod=indent filetype=gitgrep buftype=nofile hlsearch ignorecase
 
@@ -161,13 +111,71 @@ function! gitgrep#run(win_mode, bang, query)
 
   " Finally, let it be picked up later
   let g:gitgrep_last_query = a:query
-endfunction
+endfunction " }}}
 
-function! gitgrep#bind_buffer_keys()
+" Opens a window and focuses on it
+function gitgrep#open_window(win_mode) " {{{
+  " `winmode` can be [v]ertical, [s]plit, [t]ab or [max]imised
+  let mode = a:win_mode == '' ? 'm' : a:win_mode
+
+  " save the referer window for splits
+  let referer = winnr()
+
+  if mode == 'v'
+    let pos = g:gitgrep_vertical_position == 'right' ? 'botright' : 'topleft'
+    exe 'vert ' . pos . ' new'
+    let b:referer = referer
+  elseif mode == 't'
+    tabnew
+  elseif mode == 's'
+    let pos = g:gitgrep_horizontal_position == 'bottom' ? 'bot' : 'top'
+    exe '' . pos . ' new'
+    exe 'resize ' . g:gitgrep_height
+    let b:referer = referer
+  elseif mode == 'm'
+    " always opens on top
+    exe 'top new'
+    resize
+  endif
+endfunction " }}}
+
+" Opens a window, or focuses if it's already there
+function! gitgrep#prepare_window(win_mode) " {{{
+  " Returns...
+  "  - `0` if it's a new window
+  "  - `1` if it's a new window & existing buffer
+  "  - `2` if it's an existing window & existing buffer
+
+  let buf = bufnr(g:gitgrep_window)
+  let win = bufwinnr(buf)
+
+  if buf == -1
+    " New buffer/window
+    call gitgrep#open_window(a:win_mode)
+    " set buffer name
+    exe 'file ' . g:gitgrep_window
+    let b:gitgrep_buffer = 1
+    call gitgrep#bind_buffer_keys()
+    return 0
+  elseif win == -1
+    " Old buffer, new window (reuse the old buffer)
+    call gitgrep#open_window(a:win_mode)
+    exe 'b ' . buf
+    return 1
+  else
+    " Old buffer, old window (focus on open window)
+    exec '' . win . 'wincmd w'
+    return 2
+  endif
+endfunction " }}}
+
+" Binds keys
+function! gitgrep#bind_buffer_keys() " {{{
   nnoremap <silent> <buffer> <cr> :call gitgrep#navigate('m')<cr>:<esc>
-endfunction
+endfunction " }}}
 
-function! gitgrep#navigate(target)
+" Navigates to a selected line in the search buffer
+function! gitgrep#navigate(target) " {{{
   let old_g = @g
 
   " only operate on the gitgrep buffer
@@ -216,8 +224,11 @@ function! gitgrep#navigate(target)
   silent! exe '' . win . 'windo edit +' . linenr . ' ' . filepath
 
   " refocus back to the search results window
-  " silent! exe '' . src . 'windo w'
+  if g:gitgrep_keep_focus == 1
+    setlocal cursorline
+    silent! exe '' . src . 'windo w'
+  endif
 
   " restore old register
   let @g = old_g
-endfunction
+endfunction " }}}
