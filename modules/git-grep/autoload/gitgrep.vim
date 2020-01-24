@@ -171,17 +171,25 @@ endfunction " }}}
 
 " Binds keys
 function! gitgrep#bind_buffer_keys() " {{{
-  nnoremap <silent> <buffer> <cr> :call gitgrep#navigate('m')<cr>:<esc>
+  nnoremap <silent> <buffer> <cr> :call gitgrep#navigate('open')<cr>
+  nnoremap <silent> <buffer> f    :call gitgrep#toggle_follow_cursor()<cr>
+  autocmd CursorMoved <buffer> call gitgrep#on_cursor_move()
+endfunction " }}}
+
+function! gitgrep#on_cursor_move() " {{{
+  if exists('b:follow_cursor') && b:follow_cursor == 1
+    call gitgrep#navigate('hover')
+  endif
 endfunction " }}}
 
 " Navigates to a selected line in the search buffer
-function! gitgrep#navigate(target) " {{{
-  let old_g = @g
-
+function! gitgrep#navigate(mode) " {{{
+  " TODO: this is being double-called, lets optimise that
   " only operate on the gitgrep buffer
-  if b:gitgrep_buffer != 1
-    return
-  endif
+  if b:gitgrep_buffer != 1 | return | endif
+
+  let old_g = @g
+  let follow_cursor = exists('b:follow_cursor') && b:follow_cursor == 1
 
   " keep track of original cursor location
   normal mg
@@ -221,14 +229,32 @@ function! gitgrep#navigate(target) " {{{
     silent! exe '' . src . 'windo w'
     let b:referer = win
   endif
-  silent! exe '' . win . 'windo edit +' . linenr . ' ' . filepath
+  silent exe '' . win . 'windo edit +' . linenr . ' ' . filepath
 
   " refocus back to the search results window
-  if g:gitgrep_keep_focus == 1
+  if follow_cursor
     setlocal cursorline
     silent! exe '' . src . 'windo w'
   endif
 
   " restore old register
   let @g = old_g
+
+  " Turn off follow cursor mode
+  if a:mode == 'open'
+    let b:follow_cursor = 0
+  endif
+endfunction " }}}
+
+function gitgrep#toggle_follow_cursor() " {{{
+  " only operate on the gitgrep buffer
+  if b:gitgrep_buffer != 1 | return | endif
+
+  if exists('b:follow_cursor') && b:follow_cursor == 1
+    echo "Follow cursor [off]"
+    let b:follow_cursor = 0
+  else
+    echo "Follow cursor [on] - experimental!"
+    let b:follow_cursor = 1
+  end
 endfunction " }}}

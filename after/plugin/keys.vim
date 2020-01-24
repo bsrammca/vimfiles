@@ -1,8 +1,14 @@
 nnoremap <Enter> za
 nnoremap <S-Enter> zO
 nnoremap <C-Enter> zC
-nnoremap <C-s> :w<cr>
-inoremap <C-s> <esc>:w<cr>
+
+if $GIT_AUTHOR_DATE != ''
+  nnoremap <C-s> :wq<cr>
+  inoremap <C-s> <esc>:wq<cr>
+else
+  nnoremap <C-s> :w<cr>
+  inoremap <C-s> <esc>:w<cr>
+endif
 
 " Open config
 nnoremap <leader>fek :tabnew<cr>:e ~/.config/nvim/after/plugin/keys.vim<cr>
