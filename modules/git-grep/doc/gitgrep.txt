@@ -20,6 +20,7 @@ and `:VG` opens in a vertical split.
 ---------------------------------------------------------------------------------------
 EXAMPLE CONFIG
 >
-    nnoremap <leader>*  :GG <C-r><C-w><CR>
-    vnoremap <leader>*  y:GG <C-r>"<C-b><CR>
+    nnoremap <leader>/  :VG<space>
+    nnoremap <leader>*  :VG <C-r><C-w><CR>
+    vnoremap <leader>*  y:VG <C-r>"<C-b><CR>
 <

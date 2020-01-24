@@ -44,15 +44,14 @@ function gitgrep#open_window(win_mode)
     let b:referer = referer
   elseif mode == 't'
     tabnew
-    let b:referer = referer
   elseif mode == 's'
     let pos = g:gitgrep_horizontal_position == 'bottom' ? 'bot' : 'top'
     exe '' . pos . ' new'
     exe 'resize ' . g:gitgrep_height
     let b:referer = referer
   elseif mode == 'm'
-    let pos = g:gitgrep_horizontal_position == 'bottom' ? 'bot' : 'top'
-    exe '' . pos . ' new'
+    " always opens on top
+    exe 'top new'
     resize
   endif
 endfunction
@@ -87,7 +86,7 @@ function! gitgrep#prepare_window(win_mode)
   endif
 endfunction
 
-function! gitgrep#run(win_mode, query)
+function! gitgrep#run(win_mode, bang, query)
   " What invoked it
   let source = winnr()
 
@@ -121,17 +120,19 @@ function! gitgrep#run(win_mode, query)
 
   " Perform an git grep search
   let escaped_query = shellescape(a:query)
-  silent! exec 'r!git grep --heading --line-number -E ' . escaped_query
-  setlocal filetype=gitgrep buftype=nofile
+
+  let grep_params = ''
+  if a:bang == 1
+    let grep_params = '-i '
+  endif
+
+  silent! exec 'r!git grep --heading --line-number -E ' . grep_params . escaped_query
 
   " check line count to see if there are results
   if line('$') != 1
-    " Highlight currenty query
-    let @/ = query
-
     try
       " Format lines
-      silent! %s#^\d\+:#  &  #g
+      silent! %s#^\d\+:#  & #g
 
       " Format filenames
       silent! %s#^[^ ]\+$#\r&#g
@@ -141,23 +142,28 @@ function! gitgrep#run(win_mode, query)
     " Move cursor to top, remove first 2 lines
     normal gg
     normal "_2dd
+
+    " Highlight currenty query
+    let @/ = query
   else
     exec "normal a!    No results found for `" . query . "`"
   endif
 
-  " Prevent it from being written
-  setlocal nomodifiable nonumber foldmethod=indent
-  set hlsearch
+  " Prevent it from being written, and other stuff
+  silent! setlocal
+    \ nocursorcolumn nobuflisted matchpairs=0 foldcolumn=0
+    \ nolist nonumber norelativenumber nospell noswapfile signcolumn=no
+    \ nomodifiable nonumber foldmethod=indent filetype=gitgrep buftype=nofile hlsearch ignorecase
+
+  if g:gitgrep_use_cursor_line == 1
+    silent! setlocal cursorline
+  endif
 
   " Finally, let it be picked up later
   let g:gitgrep_last_query = a:query
 endfunction
 
 function! gitgrep#bind_buffer_keys()
-  if g:gitgrep_use_cursor_line == 1
-    setlocal cursorline
-  endif
-
   nnoremap <silent> <buffer> <cr> :call gitgrep#navigate('m')<cr>:<esc>
 endfunction
 
@@ -187,15 +193,30 @@ function! gitgrep#navigate(target)
   if line('.') != '1'
     normal j
   endif
+  " normal 0v$l"gy
   normal "gyy
 
   " snap back to old location
   normal 'g
 
-  " use the referer window if possible
-  let win = exists('b:referer') ? b:referer : winnr()
+  " keep a reference to the search results window
+  let src = winnr()
+
   let filepath = @g
-  exe '' . win . 'windo edit +' . linenr . ' ' . filepath
+  " use the referer window if possible. winwidth() will check
+  " if the window is still open
+  if exists('b:referer') && winwidth(b:referer) != -1
+    let win = b:referer
+  else
+    vert bot new
+    let win = winnr()
+    silent! exe '' . src . 'windo w'
+    let b:referer = win
+  endif
+  silent! exe '' . win . 'windo edit +' . linenr . ' ' . filepath
+
+  " refocus back to the search results window
+  " silent! exe '' . src . 'windo w'
 
   " restore old register
   let @g = old_g
